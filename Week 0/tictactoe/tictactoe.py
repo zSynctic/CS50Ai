@@ -78,7 +78,7 @@ def result(board, action):
     if board[i][j] != EMPTY:
         raise Exception("Invalid action: cell already taken")
 
-    # Create a deep copy of the board to avoid mutating the original board
+    # Create a copy of the board to avoid changing the original board
     board_copy = copy.deepcopy(board)
     
     # Place the player's mark on the board
@@ -96,6 +96,7 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
+    
     # Check for rows
     for row in board:
         if row[0] == row[1] == row[2] and row[0] != EMPTY:
@@ -112,7 +113,7 @@ def winner(board):
     if board[2][0] == board[1][1] == board[0][2] and board[0][2] != EMPTY:
         return board[2][0]
 
-    # Return None if there is no winner of the game (either because the game is still on or a tie)
+    # Return None if there is no winner of the game (either the game is still on or a tie)
     return None
 
 
@@ -165,7 +166,7 @@ def minimax(board):
     Returns the optimal action for the current player on the board.
     """
     
-    # Base case: if the game is over, return None (no moves left)
+    # If the game is over, return None
     if terminal(board):
         return None
     
@@ -199,7 +200,7 @@ def MaxValue(board):
 
     v = -math.inf
 
-    # Base case: if the game is over, return the utility value of the board
+    # If the game is over, return the utility value of the board
     if terminal(board):
         return utility(board)
 
@@ -214,7 +215,7 @@ def MinValue(board):
 
     v = math.inf
 
-    # Base case: if the game is over, return the utility value of the board
+    # If the game is over, return the utility value of the board
     if terminal(board):
         return utility(board)
 
