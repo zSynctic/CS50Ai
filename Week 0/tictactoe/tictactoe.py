@@ -26,9 +26,11 @@ def player(board):
     countX = 0
     countO = 0
     
+    # If the board is in its initial state, X plays first
     if board == initial_state():
         return X
     
+    # Count the number of X's and O's on the board
     for row in board:
         for cell in row:
             if cell == X:
@@ -38,6 +40,7 @@ def player(board):
             else:
                 continue
     
+    # If there are fewer O's than X's, it's O's turn; if equal, it's X's turn
     if countO < countX:
         return O
     elif countX == countO:
@@ -46,13 +49,15 @@ def player(board):
         return EMPTY
     
 
-
 def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
+    
+    # Create an empty set to store available moves
     available_moves = set()
     
+    # Iterate through the board to find empty available cells and add their coordinates to the set
     for row_index, row in enumerate(board):
         for col_index, cell in enumerate(row):
             if cell == EMPTY:
@@ -73,8 +78,10 @@ def result(board, action):
     if board[i][j] != EMPTY:
         raise Exception("Invalid action: cell already taken")
 
+    # Create a deep copy of the board to avoid mutating the original board
     board_copy = copy.deepcopy(board)
     
+    # Place the player's mark on the board
     if player(board) == X:
         board_copy[i][j] = X
     elif player(board) == O:
@@ -142,6 +149,8 @@ def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
+    
+    # Check for the winner and return 1 if X wins, -1 if O wins, and 0 for a tie or ongoing game
     if winner(board) == X:
         return 1
     if winner(board) == O:
@@ -154,11 +163,15 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
+    
+    # Base case: if the game is over, return None (no moves left)
     if terminal(board):
         return None
     
+    # Determine the current player
     current_player = player(board)
     
+    # If the current player is O (minimizing player), we want to minimize the score
     if current_player == O:
         best_value = math.inf
         best_action = None
@@ -169,6 +182,7 @@ def minimax(board):
                 best_action = action
         return best_action
     
+    # If the current player is X (maximizing player), we want to maximize the score
     if current_player == X:
         best_value = -math.inf
         best_action = None
@@ -183,9 +197,11 @@ def MaxValue(board):
 
     v = -math.inf
 
+    # Base case: if the game is over, return the utility value of the board
     if terminal(board):
         return utility(board)
 
+    # Explore all possible actions and choose the one that maximizes the score
     for action in actions(board):
         v = max(v, MinValue(result(board, action)))
 
@@ -195,9 +211,11 @@ def MinValue(board):
 
     v = math.inf
 
+    # Base case: if the game is over, return the utility value of the board
     if terminal(board):
         return utility(board)
 
+    # Explore all possible actions and choose the one that minimizes the score
     for action in actions(board):
         v = min(v, MaxValue(result(board, action)))
 
