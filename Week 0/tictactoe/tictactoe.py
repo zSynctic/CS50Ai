@@ -115,6 +115,7 @@ def winner(board):
     # Return None if there is no winner of the game (either because the game is still on or a tie)
     return None
 
+
 def terminal(board):
     """
     Returns True if game is over, False otherwise.
@@ -193,6 +194,7 @@ def minimax(board):
                 best_action = action
         return best_action
 
+
 def MaxValue(board):
 
     v = -math.inf
@@ -206,6 +208,7 @@ def MaxValue(board):
         v = max(v, MinValue(result(board, action)))
 
     return v
+
 
 def MinValue(board):
 
