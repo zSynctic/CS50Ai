@@ -65,12 +65,20 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
+    i, j = action
+
+    # Check for invalid moves
+    if i < 0 or i > 2 or j < 0 or j > 2:
+        raise Exception("Invalid action: out of bounds")
+    if board[i][j] != EMPTY:
+        raise Exception("Invalid action: cell already taken")
+
     board_copy = copy.deepcopy(board)
     
     if player(board) == X:
-        board_copy[action[0]][action[1]] = X
+        board_copy[i][j] = X
     elif player(board) == O:
-        board_copy[action[0]][action[1]] = O
+        board_copy[i][j] = O
     else:
         raise Exception("No player to make a move")
     
